@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Database1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nationality" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Religion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ReligionName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="StudentForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="FName" Type="varchar" MaxLength="50" />
+          <Property Name="Nation" Type="int" />
+          <Property Name="ReligionName" Type="int" />
+          <Property Name="DOB" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Nationality" Type="Self.Nationality" Multiplicity="0..1" />
+          <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentForm">
+              <PropertyRef Name="Nation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="Religion" Type="Self.Religion" Multiplicity="0..1" />
+          <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Religion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentForm">
+              <PropertyRef Name="ReligionName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1ModelStoreContainer">
+          <EntitySet Name="Nationality" EntityType="Self.Nationality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Religion" EntityType="Self.Religion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentForm" EntityType="Self.StudentForm" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Nationality" EntitySet="Nationality" />
+            <End Role="StudentForm" EntitySet="StudentForm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="Religion" EntitySet="Religion" />
+            <End Role="StudentForm" EntitySet="StudentForm" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Nationality">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nationality1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="StudentForms" Relationship="Self.FK_Table_ToTable" FromRole="Nationality" ToRole="StudentForm" />
+        </EntityType>
+        <EntityType Name="Religion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ReligionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="StudentForms" Relationship="Self.FK_Table_ToTable_1" FromRole="Religion" ToRole="StudentForm" />
+        </EntityType>
+        <EntityType Name="StudentForm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nation" Type="Int32" />
+          <Property Name="ReligionName" Type="Int32" />
+          <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Nationality" Relationship="Self.FK_Table_ToTable" FromRole="StudentForm" ToRole="Nationality" />
+          <NavigationProperty Name="Religion" Relationship="Self.FK_Table_ToTable_1" FromRole="StudentForm" ToRole="Religion" />
+        </EntityType>
+        <Association Name="FK_Table_ToTable">
+          <End Role="Nationality" Type="Self.Nationality" Multiplicity="0..1" />
+          <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationality">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentForm">
+              <PropertyRef Name="Nation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_ToTable_1">
+          <End Role="Religion" Type="Self.Religion" Multiplicity="0..1" />
+          <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Religion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StudentForm">
+              <PropertyRef Name="ReligionName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Nationalities" EntityType="Self.Nationality" />
+          <EntitySet Name="Religions" EntityType="Self.Religion" />
+          <EntitySet Name="StudentForms" EntityType="Self.StudentForm" />
+          <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+            <End Role="Nationality" EntitySet="Nationalities" />
+            <End Role="StudentForm" EntitySet="StudentForms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+            <End Role="Religion" EntitySet="Religions" />
+            <End Role="StudentForm" EntitySet="StudentForms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Database1ModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="Nationalities">
+            <EntityTypeMapping TypeName="Database1Model.Nationality">
+              <MappingFragment StoreEntitySet="Nationality">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nationality1" ColumnName="Nationality" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Religions">
+            <EntityTypeMapping TypeName="Database1Model.Religion">
+              <MappingFragment StoreEntitySet="Religion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReligionName" ColumnName="ReligionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentForms">
+            <EntityTypeMapping TypeName="Database1Model.StudentForm">
+              <MappingFragment StoreEntitySet="StudentForm">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="Nation" ColumnName="Nation" />
+                <ScalarProperty Name="ReligionName" ColumnName="ReligionName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

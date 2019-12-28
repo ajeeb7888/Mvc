@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Nationality">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Nationality1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="StudentForms" Relationship="Self.FK_Table_ToTable" FromRole="Nationality" ToRole="StudentForm" />
+  </EntityType>
+  <EntityType Name="Religion">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="ReligionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="StudentForms" Relationship="Self.FK_Table_ToTable_1" FromRole="Religion" ToRole="StudentForm" />
+  </EntityType>
+  <EntityType Name="StudentForm">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Nation" Type="Int32" />
+    <Property Name="ReligionName" Type="Int32" />
+    <Property Name="DOB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Nationality" Relationship="Self.FK_Table_ToTable" FromRole="StudentForm" ToRole="Nationality" />
+    <NavigationProperty Name="Religion" Relationship="Self.FK_Table_ToTable_1" FromRole="StudentForm" ToRole="Religion" />
+  </EntityType>
+  <Association Name="FK_Table_ToTable">
+    <End Role="Nationality" Type="Self.Nationality" Multiplicity="0..1" />
+    <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Nationality">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentForm">
+        <PropertyRef Name="Nation" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Table_ToTable_1">
+    <End Role="Religion" Type="Self.Religion" Multiplicity="0..1" />
+    <End Role="StudentForm" Type="Self.StudentForm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Religion">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StudentForm">
+        <PropertyRef Name="ReligionName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Nationalities" EntityType="Self.Nationality" />
+    <EntitySet Name="Religions" EntityType="Self.Religion" />
+    <EntitySet Name="StudentForms" EntityType="Self.StudentForm" />
+    <AssociationSet Name="FK_Table_ToTable" Association="Self.FK_Table_ToTable">
+      <End Role="Nationality" EntitySet="Nationalities" />
+      <End Role="StudentForm" EntitySet="StudentForms" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Table_ToTable_1" Association="Self.FK_Table_ToTable_1">
+      <End Role="Religion" EntitySet="Religions" />
+      <End Role="StudentForm" EntitySet="StudentForms" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
